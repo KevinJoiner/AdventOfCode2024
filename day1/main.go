@@ -8,7 +8,7 @@ import (
 	"sort"
 	"strconv"
 
-	"KevinJoiner/AdventOfCode2024/aoc"
+	"github.com/KevinJoiner/AdventOfCode2024/aoc"
 )
 
 func main() {
