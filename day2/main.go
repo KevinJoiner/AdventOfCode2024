@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	rows, err := aoc.ReadLines("/Users/kevinjoiner/dev/kevinjoiner/AdventOfCode2024/day2/input.txt")
+	rows, err := aoc.ReadLines("./day2/input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,7 +31,7 @@ func puzzle1(lines [][]byte) (any, error) {
 	rows := toInts(lines)
 	total := 0
 	for _, row := range rows {
-		if allGood(row, 0) {
+		if allGood(row) {
 			total++
 		}
 	}
@@ -42,7 +42,7 @@ func puzzle2(lines [][]byte) (any, error) {
 	rows := toInts(lines)
 	total := 0
 	for _, row := range rows {
-		if allGood(row, 0) {
+		if allGood(row) {
 			total++
 			continue
 		}
@@ -50,7 +50,7 @@ func puzzle2(lines [][]byte) (any, error) {
 			newList := make([]int, len(row[:j]))
 			copy(newList, row[:j])
 			newList = append(newList, row[j+1:]...)
-			if allGood(newList, 0) {
+			if allGood(newList) {
 				total++
 				break
 			}
@@ -76,9 +76,8 @@ func toInts(raw [][]byte) [][]int {
 	return ret
 }
 
-func allGood(row []int, dampLimit int) bool {
+func allGood(row []int) bool {
 	dir := 0
-	damp := 0
 	first := row[0]
 	for i := 1; i < len(row); i++ {
 		next := row[i]
@@ -87,48 +86,18 @@ func allGood(row []int, dampLimit int) bool {
 			if dir == 0 {
 				dir = -1
 			} else if dir == 1 {
-				if damp >= dampLimit {
-					if i == 2 && dampLimit != 0 && allGood(row[1:], 0) {
-						return true
-					}
-					return false
-				}
-				if i == 1 && dampLimit != 0 {
-					dir = 0
-				}
-				damp++
-				continue
+				return false
 			}
 			diff = -diff
 		} else {
 			if dir == 0 {
 				dir = 1
 			} else if dir == -1 {
-				if damp >= dampLimit {
-					// if i == 2 && dampLimit != 0 && allGood(row[1:], 0) {
-					// 	return true
-					// }
-					return false
-				}
-				if i == 1 && dampLimit != 0 {
-					dir = 0
-				}
-				damp++
-				continue
+				return false
 			}
 		}
 		if diff < 1 || diff > 3 {
-			if damp >= dampLimit {
-				// if i == 2 && dampLimit != 0 && allGood(row[1:], 0) {
-				// 	return true
-				// }
-				return false
-			}
-			if i == 1 && dampLimit != 0 {
-				dir = 0
-			}
-			damp++
-			continue
+			return false
 		}
 		first = next
 	}
