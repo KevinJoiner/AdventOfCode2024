@@ -12,23 +12,31 @@ import (
 )
 
 func main() {
-	if err := puzzle1(); err != nil {
+	rows, err := aoc.ReadLines("day1/input.txt")
+	if err != nil {
 		log.Fatal(err)
 	}
-	if err := puzzle2(); err != nil {
+	output, err := puzzle1(rows)
+	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("Puzzle 1 output:", output)
+	output, err = puzzle2(rows)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Puzzle 2 output:", output)
 }
 
-func puzzle1() error {
-	list1, list2, err := getList()
+func puzzle1(rows [][]byte) (any, error) {
+	list1, list2, err := getList(rows)
 	if err != nil {
-		return fmt.Errorf("could not get list: %w", err)
+		return nil, fmt.Errorf("could not get list: %w", err)
 	}
 	sort.Ints(list1)
 	sort.Ints(list2)
 	if len(list1) != len(list2) {
-		return fmt.Errorf("list lengths do not match")
+		return nil, fmt.Errorf("list lengths do not match")
 	}
 	total := 0
 	for i := range list1 {
@@ -38,15 +46,14 @@ func puzzle1() error {
 		}
 		total += diff
 	}
-	fmt.Println("puzzle 1 total:", total)
 
-	return nil
+	return total, nil
 }
 
-func puzzle2() error {
-	lList, rList, err := getList()
+func puzzle2(rows [][]byte) (any, error) {
+	lList, rList, err := getList(rows)
 	if err != nil {
-		return fmt.Errorf("could not get list: %w", err)
+		return nil, fmt.Errorf("could not get list: %w", err)
 	}
 	leftCount := map[int]int{}
 	for _, val := range lList {
@@ -62,16 +69,11 @@ func puzzle2() error {
 	for lVal, count := range leftCount {
 		total += lVal * count
 	}
-	fmt.Println("puzzle 2 total:", total)
-
-	return nil
+	return total, nil
 }
 
-func getList() (leftList, rightList []int, err error) {
-	rows, err := aoc.ReadLines("day1/input.txt")
-	if err != nil {
-		return nil, nil, fmt.Errorf("could not read lines: %w", err)
-	}
+func getList(rows [][]byte) (leftList, rightList []int, err error) {
+
 	list1 := []int{}
 	list2 := []int{}
 	for i, row := range rows {
