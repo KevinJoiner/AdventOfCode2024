@@ -112,11 +112,14 @@ func check(testVal int, startNum int, vals []int, seq []int) bool {
 	if len(vals) == 0 {
 		return testVal == evalSeq(seq)
 	}
-	seq = append(seq, -1, vals[0])
+
+	prev := evalSeq(seq)
+	seq = []int{prev, -1, vals[0]}
 	if check(testVal, startNum, vals[1:], seq) {
 		return true
 	}
-	seq[len(seq)-2] = -2
+
+	seq = []int{prev, -2, vals[0]}
 	if check(testVal, startNum, vals[1:], seq) {
 		return true
 	}
@@ -127,15 +130,16 @@ func check2(testVal int, startNum int, vals []int, seq []int) bool {
 	if len(vals) == 0 {
 		return testVal == evalSeq(seq)
 	}
-	seq = append(seq, -1, vals[0])
+	prev := evalSeq(seq)
+	seq = []int{prev, -1, vals[0]}
 	if check2(testVal, startNum, vals[1:], seq) {
 		return true
 	}
-	seq[len(seq)-2] = -2
+	seq = []int{prev, -2, vals[0]}
 	if check2(testVal, startNum, vals[1:], seq) {
 		return true
 	}
-	seq[len(seq)-2] = -3
+	seq = []int{prev, -3, vals[0]}
 	if check2(testVal, startNum, vals[1:], seq) {
 		return true
 	}
