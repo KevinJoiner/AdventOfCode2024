@@ -18,6 +18,7 @@ package main
 import (
     "fmt"
     "log"
+    "time"
 
 	"github.com/KevinJoiner/AdventOfCode2024/aoc"
 )
@@ -27,24 +28,22 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	output, err := puzzle1(rows)
-	if err != nil {
-		log.Fatal(err)
-	}
+	start := time.Now()
+	output := puzzle1(rows)
 	fmt.Println("Puzzle 1 output:", output)
-	output, err = puzzle2(rows)
-	if err != nil {
-		log.Fatal(err)
-	}
+	fmt.Println("Puzzle 1 Duration:", time.Since(start))
+	start = time.Now()
+	output = puzzle2(rows)
 	fmt.Println("Puzzle 2 output:", output)
+	fmt.Println("Puzzle 2 Duration:", time.Since(start))
 }
 
-func puzzle1(rows [][]byte) (any, error) {
-	return nil, nil
+func puzzle1(rows [][]byte) any {
+	return nil
 }
 
-func puzzle2(rows [][]byte) (any, error) {
-	return nil, nil
+func puzzle2(rows [][]byte) any {
+	return nil
 }
 
 EOL
