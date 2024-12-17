@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+var LargeNumber = 1<<62 - 1
+
 func ReadLines(filename string) ([][]byte, error) {
 	input, err := os.ReadFile(filename)
 	if err != nil {
